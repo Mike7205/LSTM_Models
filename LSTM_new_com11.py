@@ -61,7 +61,7 @@ val_s1 = val_s[['Date','USD/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
 day_s1 = val_s1.shape[0]
 st.write(f'Predictions for the last {day_s1} days')
 fig_vals = px.line(val_s1, x='Date', y=['USD/PLN','Day + 1 Prediction'],color_discrete_map={
-                 'USD/PLN':'#F6BE00','Day + 1 Prediction':'green'}, width=1000, height=500 ) # #89CFF0
+                 'USD/PLN':'#F6BE00','Day + 1 Prediction':'#4E11A8'}, width=1000, height=500 ) # #89CFF0
 fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
                       yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
 st.plotly_chart(fig_vals, use_container_width=True)
