@@ -9,29 +9,23 @@ jobs:
 
     steps:
     - name: Checkout target repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: Mike7205/LSTM_Models
         token: ${{ secrets.PAT }}
 
     - name: Checkout source repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
       with:
         repository: Mike7205/comm10
         path: source_repo
         token: ${{ secrets.PAT }}
-
-    - name: Verify master directory exists
-      run: ls -la master
 
     - name: Copy files
       run: |
         cp source_repo/D1_EUR_a.pkl master/
         cp source_repo/D1_USD_a.pkl master/
         cp source_repo/D5_eur_tabel.pkl master/
-
-    - name: Verify files copied
-      run: ls -la master
 
     - name: Commit and push changes
       run: |
