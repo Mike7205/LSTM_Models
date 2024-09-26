@@ -1,0 +1,38 @@
+name: Copy Files from comm10
+
+on:
+  workflow_dispatch: # Umożliwia ręczne uruchomienie workflow
+
+jobs:
+  copy-files:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout target repository
+      uses: actions/checkout@v2
+      with:
+        repository: Mike7205/LSTM_Models
+        token: ${{ secrets.PAT }}
+
+    - name: Checkout source repository
+      uses: actions/checkout@v2
+      with:
+        repository: Mike7205/comm10
+        path: source_repo
+        token: ${{ secrets.PAT }}
+
+    - name: Copy files
+      run: |
+        cp source_repo/D1_EUR_a.pkl master/
+        cp source_repo/D1_USD_a.pkl master/
+        cp source_repo/D5_eur_tabel.pkl master/
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.email "you@example.com"
+        git config --global user.name "Your Name"
+        git add master/D1_EUR_a.pkl master/D1_USD_a.pkl master/D5_eur_tabel.pkl
+        git commit -m "Add files from comm10 repository"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
