@@ -27,7 +27,7 @@ st.sidebar.title('Models list')
 today = date.today()
 
 # Own LSTM EUR/PLN D+5 prediction model
-st.subheader('Own LSTM EUR/PLN D+5 prediction model')  
+st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider='red')  
 val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
 val_D5EP = val_D5E[['Date','Day + 5 Prediction']][-100:]
 val_D5EU = pd.read_pickle('D1_EUR_a.pkl')
@@ -43,7 +43,7 @@ fig_D5E.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
 st.plotly_chart(fig_D5E)
 
 # Own EUR/PLN LSTM prediction model (D+1)    
-st.subheader('EUR/PLN exchange rate (D+1) predictions')
+st.subheader('EUR/PLN exchange rate (D+1) predictions', divider='red')
 val = pd.read_pickle('D1_EUR_a.pkl')
 val_1 = val[['Date','EUR/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
 day_s = val_1.shape[0]
@@ -55,7 +55,7 @@ fig_val.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=T
 st.plotly_chart(fig_val, use_container_width=True)
 
 # Own USD/PLN LSTM prediction model (D+1)     
-st.subheader('USD/PLN exchange rate (D+1) predictions')
+st.subheader('USD/PLN exchange rate (D+1) predictions', divider='red')
 val_s = pd.read_pickle('D1_USD_a.pkl')
 val_s1 = val_s[['Date','USD/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
 day_s1 = val_s1.shape[0]
