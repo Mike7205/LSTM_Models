@@ -71,7 +71,7 @@ st.subheader('AI about the markets', divider='red')
 from transformers import pipeline
 
 # Inicjalizacja modelu
-generator = pipeline('text-generation', model='distilgpt2')
+generator = pipeline('text-generation', model='gpt2')
 # Pole tekstowe do wprowadzenia promptu
 prompt = st.text_input("How about:", "Latest insides")
 
