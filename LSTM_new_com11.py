@@ -65,3 +65,18 @@ fig_vals = px.line(val_s1, x='Date', y=['USD/PLN','Day + 1 Prediction'],color_di
 fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
                       yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
 st.plotly_chart(fig_vals, use_container_width=True)
+
+# LLM model - stock news     
+st.subheader('AI about the markets', divider='red')
+from transformers import pipeline
+
+# Inicjalizacja modelu
+generator = pipeline('text-generation', model='distilgpt2')
+# Pole tekstowe do wprowadzenia promptu
+prompt = st.text_input("How about:", "Latest insides")
+
+if st.button("Check"):
+    # Generowanie tekstu
+    result = generator(prompt, max_length=100, num_return_sequences=1)
+    st.write(result[0]['generated_text'])
+
