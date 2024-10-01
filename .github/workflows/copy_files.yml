@@ -23,9 +23,9 @@ jobs:
 
     - name: Copy files
       run: |
-        cp source_repo/D1_EUR_a.pkl master/
-        cp source_repo/D1_USD_a.pkl master/
-        cp source_repo/D5_eur_tabel.pkl master/
+        cp source_repo/D1_EUR_a.pkl #master/
+        cp source_repo/D1_USD_a.pkl #master/
+        cp source_repo/D5_eur_tabel.pkl #master/
 
     - name: Commit and push changes
       run: |
