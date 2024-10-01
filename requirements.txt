@@ -8,4 +8,4 @@ scipy
 scikit-learn
 statsmodels
 tensorflow==2.17.0
-transformers==4.30.0
+transformers==4.29.0
