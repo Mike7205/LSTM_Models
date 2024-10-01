@@ -30,11 +30,10 @@ jobs:
 
     - name: Commit and push changes
       run: |
-        git config --global user.name 'github-actions[bot]'
-        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-        #git config --global user.email "michal.lesniewski108@gmail.com"
-        #git config --global user.name "Mike7205"
-        git add master/target_repo/D1_EUR_a.pkl master/target_repo/D1_USD_a.pkl master/target_repo/D5_eur_tabel.pkl
+        cd master/target_repo
+        git config --global user.email "michal.lesniewski108@gmail.com"
+        git config --global user.name "Mike7205"
+        git add D1_EUR_a.pkl D1_USD_a.pkl D5_eur_tabel.pkl
         git commit -m "Add files from comm10 repository"
         git push
       env:
