@@ -19,7 +19,7 @@ jobs:
       with:
         repository: Mike7205/comm10
         path: source_repo
-        token: ${{ secrets.PAT }}
+        token: ${{ secrets.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 }}
 
     - name: Copy files
       run: |
