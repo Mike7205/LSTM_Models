@@ -7,5 +7,5 @@ pandas
 scipy
 scikit-learn
 statsmodels
-torch
-transformers==4.29.0
+tensorflow
+
