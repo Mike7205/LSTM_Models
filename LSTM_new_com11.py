@@ -118,15 +118,12 @@ with col1:
 
 with col2:
     st.subheader('Arima benchmark' , divider ='blue')
-
     with st.form("my_form"):
         bench = st.radio('Benchmark for:', list(bench_dict.values()), key="<co2>")
-        curr_f(bench)
         size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
+        submitted = st.form_submit_button("Submit")
+        curr_f(bench)
         Arima_f(bench, size_a)
         Arima_chart()
 
-        # Każdy formularz musi mieć przycisk submit.
-        submitted = st.form_submit_button("Submit")
-        if submitted:
-            st.write('Benchmark for:', bench, 'Forecast length', size_a)        
+        
