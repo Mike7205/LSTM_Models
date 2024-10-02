@@ -22,12 +22,12 @@ st.set_page_config(layout="wide")
 # start definicji strony
 st.title('LSTM Prediction Models')
 
-st.html(
-    """
-<style>
-[data-testid="stSidebarContent"] {color: black; background-color: #91BFCF} #90EE90 #ADD8E6 #9CC2CF
-</style>
-""")
+#st.html(
+#    """
+#<style>
+#[data-testid="stSidebarContent"] {color: black; background-color: #91BFCF} #90EE90 #ADD8E6 #9CC2CF
+#</style>
+#""")
 
 today = date.today()
 bench_dict = {'EURPLN=X':'EUR/PLN','PLN=X':'PLN/USD'}
@@ -120,15 +120,16 @@ st.plotly_chart(fig_vals, use_container_width=True)
 #size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
 #Arima_f(bench, size_a)
 #Arima_chart()
+st.subheader('Arima benchmark' , divider ='blue')
 
-with st.sidebar.form("my_form"):
-    bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
+with st.form("my_form"):
+    bench = st.radio('Benchmark for:', list(bench_dict.values()))
     curr_f(bench)
-    size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
+    size_a = st.slider('Forecast length', 1, 10, 1, key = "<co1>")
     Arima_f(bench, size_a)
     Arima_chart()
     
     # Every form must have a submit button.
-    submitted = st.sidebar.form_submit_button("Submit")
+    submitted = st.form_submit_button("Submit")
     if submitted:
         st.write('Benchmark for:', bench ,'Forecast length', size_a)
