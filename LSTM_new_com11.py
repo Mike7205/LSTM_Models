@@ -124,6 +124,10 @@ with col2:
         submitted = st.form_submit_button("Submit")
         curr_f(bench)
         Arima_f(bench, size_a)
-        Arima_chart()
-
+        arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
+        fig_ar = px.line(arima_chart_dff, x='Date', y=['High', 'Close', 'Predicted Close'], color_discrete_map={
+                          'High': 'yellow', 'Close': 'black', 'Predicted Close': 'red'}, width=1000, height=500)
+        fig_ar.add_vline(x = today,line_width=3, line_dash="dash", line_color="green")
+        fig_ar.update_layout(xaxis=None, yaxis=None)
+        st.plotly_chart(fig_ar, use_container_width=True)
         
