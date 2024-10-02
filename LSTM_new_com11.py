@@ -119,10 +119,10 @@ with col1:
 with col2:
     st.subheader('Arima benchmark' , divider ='blue')
     #with st.form("my_form"):
-    bench = st.radio('Benchmark for:', list(bench_dict.values()), key="<co2>")
+    bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
     size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-    submitted = st.button("Submit")
-    if submitted:
+    submit = st.button("Submit")
+    if submit:
         curr_f(bench)
         Arima_f(bench, size_a)
         arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
