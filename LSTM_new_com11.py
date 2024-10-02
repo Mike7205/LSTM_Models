@@ -124,8 +124,9 @@ with col2:
         
     with col4:
         size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-        submit = st.button("Submit")
+        
     
+    submit = st.button(f"Submit {bench} Benchmark forecast")
     if submit:
         curr_f(bench)
         Arima_f(bench, size_a)
