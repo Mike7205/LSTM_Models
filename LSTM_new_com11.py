@@ -118,10 +118,14 @@ with col1:
 
 with col2:
     st.subheader('Arima benchmark' , divider ='blue')
-    #with st.form("my_form"):
-    bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
-    size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-    submit = st.button("Submit")
+    col3, col4 = st.columns([0.5, 0.5])
+    with col3:
+        bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
+        
+    with col4:
+        size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
+        submit = st.button("Submit")
+    
     if submit:
         curr_f(bench)
         Arima_f(bench, size_a)
