@@ -121,7 +121,7 @@ st.plotly_chart(fig_vals, use_container_width=True)
 #Arima_f(bench, size_a)
 #Arima_chart()
 
-with st.form("my_form"):
+with st.sidebar.form("my_form"):
     bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
     curr_f(bench)
     size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
