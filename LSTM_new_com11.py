@@ -72,57 +72,61 @@ def Arima_chart():
     fig_ar.add_vline(x = today,line_width=3, line_dash="dash", line_color="green")
     fig_ar.update_layout(xaxis=None, yaxis=None)
     st.plotly_chart(fig_ar, use_container_width=True)
-       
-# Own LSTM EUR/PLN D+5 prediction model
-st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider ='blue')  
-val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
-val_D5EP = val_D5E[['Date','Day + 5 Prediction']][-100:]
-val_D5EU = pd.read_pickle('D1_EUR_a.pkl')
-val_D5EUR = val_D5EU[['Date','EUR/PLN']][-100:]
-day_es = val_D5EUR.shape[0]
 
-st.write(f'Predictions for the last {day_es} days')  
-fig_D5E = px.line(val_D5EP, x='Date', y=['Day + 5 Prediction'],color_discrete_map={'Day + 5 Prediction':'red'}, width=1500, height=500)
-fig_D5E.add_trace(go.Scatter(x=val_D5EUR['Date'], y=val_D5EUR['EUR/PLN'], mode='lines', name='EUR/PLN', line=dict(color='blue')))
-fig_D5E.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
-                      yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))
-#fig_D5E.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
-st.plotly_chart(fig_D5E)
-
-# Own EUR/PLN LSTM prediction model (D+1)    
-st.subheader('EUR/PLN exchange rate (D+1) predictions', divider ='blue')
-val = pd.read_pickle('D1_EUR_a.pkl')
-val_1 = val[['Date','EUR/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
-day_s = val_1.shape[0]
-st.write(f'Predictions for the last {day_s} days')
-fig_val = px.line(val_1, x='Date', y=['EUR/PLN','Day + 1 Prediction'],color_discrete_map={
-                 'EUR/PLN':'blue','Day + 1 Prediction':'red'}, width=1000, height=500 ) 
-fig_val.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
-                      yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
-st.plotly_chart(fig_val, use_container_width=True)
-
-# Own USD/PLN LSTM prediction model (D+1)     
-st.subheader('USD/PLN exchange rate (D+1) predictions', divider ='blue')
-val_s = pd.read_pickle('D1_USD_a.pkl')
-val_s1 = val_s[['Date','USD/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
-day_s1 = val_s1.shape[0]
-st.write(f'Predictions for the last {day_s1} days')
-fig_vals = px.line(val_s1, x='Date', y=['USD/PLN','Day + 1 Prediction'],color_discrete_map={
-                 'USD/PLN':'#800080','Day + 1 Prediction':'green'}, width=1000, height=500 ) # #89CFF0
-fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
-                      yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
-st.plotly_chart(fig_vals, use_container_width=True)
-
-st.subheader('Arima benchmark' , divider ='blue')
-        
-with st.form("my_form"):
-    bench = st.radio('Benchmark for:', list(bench_dict.values()))
-    curr_f(bench)
-    size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-    Arima_f(bench, size_a)
-    Arima_chart()
     
-    # Każdy formularz musi mieć przycisk submit.
-    submitted = st.form_submit_button("Submit")
-    if submitted:
-        st.write('Benchmark for:', bench, 'Forecast length', size_a)        
+col1, col2 = st.columns([0.5, 0.5])
+with col1:   
+    # Own LSTM EUR/PLN D+5 prediction model
+    st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider ='blue')  
+    val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
+    val_D5EP = val_D5E[['Date','Day + 5 Prediction']][-100:]
+    val_D5EU = pd.read_pickle('D1_EUR_a.pkl')
+    val_D5EUR = val_D5EU[['Date','EUR/PLN']][-100:]
+    day_es = val_D5EUR.shape[0]
+
+    st.write(f'Predictions for the last {day_es} days')  
+    fig_D5E = px.line(val_D5EP, x='Date', y=['Day + 5 Prediction'],color_discrete_map={'Day + 5 Prediction':'red'}, width=1500, height=500)
+    fig_D5E.add_trace(go.Scatter(x=val_D5EUR['Date'], y=val_D5EUR['EUR/PLN'], mode='lines', name='EUR/PLN', line=dict(color='blue')))
+    fig_D5E.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
+                          yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))
+    #fig_D5E.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
+    st.plotly_chart(fig_D5E)
+
+    # Own EUR/PLN LSTM prediction model (D+1)    
+    st.subheader('EUR/PLN exchange rate (D+1) predictions', divider ='blue')
+    val = pd.read_pickle('D1_EUR_a.pkl')
+    val_1 = val[['Date','EUR/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
+    day_s = val_1.shape[0]
+    st.write(f'Predictions for the last {day_s} days')
+    fig_val = px.line(val_1, x='Date', y=['EUR/PLN','Day + 1 Prediction'],color_discrete_map={
+                     'EUR/PLN':'blue','Day + 1 Prediction':'red'}, width=1000, height=500 ) 
+    fig_val.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
+                          yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
+    st.plotly_chart(fig_val, use_container_width=True)
+
+    # Own USD/PLN LSTM prediction model (D+1)     
+    st.subheader('USD/PLN exchange rate (D+1) predictions', divider ='blue')
+    val_s = pd.read_pickle('D1_USD_a.pkl')
+    val_s1 = val_s[['Date','USD/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
+    day_s1 = val_s1.shape[0]
+    st.write(f'Predictions for the last {day_s1} days')
+    fig_vals = px.line(val_s1, x='Date', y=['USD/PLN','Day + 1 Prediction'],color_discrete_map={
+                     'USD/PLN':'#800080','Day + 1 Prediction':'green'}, width=1000, height=500 ) # #89CFF0
+    fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
+                          yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
+    st.plotly_chart(fig_vals, use_container_width=True)
+
+with col2:
+    st.subheader('Arima benchmark' , divider ='blue')
+
+    with st.form("my_form"):
+        bench = st.radio('Benchmark for:', list(bench_dict.values()), key="<co2>")
+        curr_f(bench)
+        size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
+        Arima_f(bench, size_a)
+        Arima_chart()
+
+        # Każdy formularz musi mieć przycisk submit.
+        submitted = st.form_submit_button("Submit")
+        if submitted:
+            st.write('Benchmark for:', bench, 'Forecast length', size_a)        
