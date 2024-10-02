@@ -114,9 +114,21 @@ fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=
 st.plotly_chart(fig_vals, use_container_width=True)
 
 # Definicja zakłądki bocznej
-st.sidebar.title('Benchamrk models list')
-bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
-curr_f(bench)
-size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
-Arima_f(bench, size_a)
-Arima_chart()
+#st.sidebar.title('Benchmark models list')
+#bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
+#curr_f(bench)
+#size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
+#Arima_f(bench, size_a)
+#Arima_chart()
+
+with st.form("my_form"):
+    bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
+    curr_f(bench)
+    size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
+    Arima_f(bench, size_a)
+    Arima_chart()
+    
+    # Every form must have a submit button.
+    submitted = st.sidebar.form_submit_button("Submit")
+    if submitted:
+        #st.write("slider", slider_val, "checkbox", checkbox_val)
