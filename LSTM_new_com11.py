@@ -72,15 +72,7 @@ def Arima_chart():
     fig_ar.add_vline(x = today,line_width=3, line_dash="dash", line_color="green")
     fig_ar.update_layout(xaxis=None, yaxis=None)
     st.plotly_chart(fig_ar, use_container_width=True)
-    
-    
-st.sidebar.title('Models list')
-bench = st.sidebar.radio('Benchmark options', list(bench_dict.values()))
-curr_f(bench)
-size_a = st.sidebar.slider('How long prices history you need?', 1, 10, 1, key = "<co1>")
-Arima_f(bench, size_a)
-Arima_chart()
-
+       
 # Own LSTM EUR/PLN D+5 prediction model
 st.subheader('Own LSTM EUR/PLN D+5 prediction model')  
 val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
@@ -120,3 +112,11 @@ fig_vals = px.line(val_s1, x='Date', y=['USD/PLN','Day + 1 Prediction'],color_di
 fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'),
                       yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
 st.plotly_chart(fig_vals, use_container_width=True)
+
+# Definicja zakłądki bocznej
+st.sidebar.title('Benchamrk models list')
+bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
+curr_f(bench)
+size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
+Arima_f(bench, size_a)
+Arima_chart()
