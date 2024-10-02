@@ -131,5 +131,4 @@ with st.form("my_form"):
     # Every form must have a submit button.
     submitted = st.sidebar.form_submit_button("Submit")
     if submitted:
-        
-#st.write("slider", slider_val, "checkbox", checkbox_val)
+        st.write('Benchmark for:', bench ,'Forecast length', size_a)
