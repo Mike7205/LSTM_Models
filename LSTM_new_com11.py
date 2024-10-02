@@ -74,7 +74,7 @@ def Arima_chart():
     st.plotly_chart(fig_ar, use_container_width=True)
        
 # Own LSTM EUR/PLN D+5 prediction model
-st.subheader('Own LSTM EUR/PLN D+5 prediction model')  
+st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider ='blue')  
 val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
 val_D5EP = val_D5E[['Date','Day + 5 Prediction']][-100:]
 val_D5EU = pd.read_pickle('D1_EUR_a.pkl')
@@ -90,7 +90,7 @@ fig_D5E.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=T
 st.plotly_chart(fig_D5E)
 
 # Own EUR/PLN LSTM prediction model (D+1)    
-st.subheader('EUR/PLN exchange rate (D+1) predictions')
+st.subheader('EUR/PLN exchange rate (D+1) predictions', divider ='blue')
 val = pd.read_pickle('D1_EUR_a.pkl')
 val_1 = val[['Date','EUR/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
 day_s = val_1.shape[0]
@@ -102,7 +102,7 @@ fig_val.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=T
 st.plotly_chart(fig_val, use_container_width=True)
 
 # Own USD/PLN LSTM prediction model (D+1)     
-st.subheader('USD/PLN exchange rate (D+1) predictions')
+st.subheader('USD/PLN exchange rate (D+1) predictions', divider ='blue')
 val_s = pd.read_pickle('D1_USD_a.pkl')
 val_s1 = val_s[['Date','USD/PLN','Day + 1 Prediction']][-100:]      #.iloc[:-1]
 day_s1 = val_s1.shape[0]
@@ -113,23 +113,16 @@ fig_vals.update_layout(plot_bgcolor='white',showlegend=True,xaxis=dict(showgrid=
                       yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
 st.plotly_chart(fig_vals, use_container_width=True)
 
-# Definicja zakłądki bocznej
-#st.sidebar.title('Benchmark models list')
-#bench = st.sidebar.radio('Benchmark for:', list(bench_dict.values()))
-#curr_f(bench)
-#size_a = st.sidebar.slider('Forecast length', 1, 10, 1, key = "<co1>")
-#Arima_f(bench, size_a)
-#Arima_chart()
 st.subheader('Arima benchmark' , divider ='blue')
-
+        
 with st.form("my_form"):
     bench = st.radio('Benchmark for:', list(bench_dict.values()))
     curr_f(bench)
-    size_a = st.slider('Forecast length', 1, 10, 1, key = "<co1>")
+    size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
     Arima_f(bench, size_a)
     Arima_chart()
     
-    # Every form must have a submit button.
+    # Każdy formularz musi mieć przycisk submit.
     submitted = st.form_submit_button("Submit")
     if submitted:
-        st.write('Benchmark for:', bench ,'Forecast length', size_a)
+        st.write('Benchmark for:', bench, 'Forecast length', size_a)        
