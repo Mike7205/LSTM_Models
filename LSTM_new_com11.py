@@ -77,7 +77,7 @@ def Arima_chart():
 st.sidebar.title('Models list')
 bench = st.sidebar.radio('Benchmark options', list(bench_dict.values()))
 curr_f(bench)
-size_a = st.slider('How long prices history you need?', 1, 10, 1, key = "<co1>")
+size_a = st.sidebar.slider('How long prices history you need?', 1, 10, 1, key = "<co1>")
 Arima_f(bench, size_a)
 Arima_chart()
 
