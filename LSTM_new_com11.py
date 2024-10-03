@@ -58,16 +58,8 @@ if st.button("T5 answer"):
         if len(summaries) == 3:
             break
 
-    st.write("Current results:")
+    st.write("Top 3 answers by T5:")
     for summary in summaries:
-        #st.markdown(
-        #        f"""
-        #        <div style="border: 2px solid #4CAF50; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
-        #            {summary}
-        #        </div>
-        #        """,
-        #        unsafe_allow_html=True
-        #    )
         st.markdown(
                 f"""
                 <div style="background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px;">
