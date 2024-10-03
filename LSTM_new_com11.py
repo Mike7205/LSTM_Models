@@ -46,7 +46,7 @@ if st.button("Pobierz prognozy"):
     results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
     summaries = []
 
-    for result in results[:3]:  # Pobierz pierwsze trzy wyniki
+    for result in results[:2]:  # Pobierz pierwsze trzy wyniki
         input_text = f"summarize: {result.text}"
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
         outputs = model.generate(input_ids)
