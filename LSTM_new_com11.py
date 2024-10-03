@@ -21,35 +21,28 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
-from transformers import AlbertTokenizer, AlbertModel
-import torch
+from transformers import pipeline
+from datasets import load_dataset
 
-# Inicjalizacja modelu i tokenizera
-tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
-model = AlbertModel.from_pretrained('albert-base-v2')
+# Inicjalizacja modelu do klasyfikacji sentymentu
+classifier = pipeline('sentiment-analysis', model='textattack/albert-base-v2-imdb')
 
-st.title("ALBERT Model in Streamlit")
-st.write("Enter some text to see the ALBERT model in action!")
+st.title("ALBERT Sentiment Analysis in Streamlit")
+st.write("Enter some text to see the sentiment analysis in action!")
 
 # Pobierz dane wejściowe od użytkownika
 user_input = st.text_input("Enter text here:")
 
 if user_input:
-    # Tokenizacja danych wejściowych
-    inputs = tokenizer(user_input, return_tensors='pt')
-
     # Przetwarzanie danych przez model
-    outputs = model(**inputs)
-
-    # Ekstrakcja ukrytych stanów
-    hidden_states = outputs.last_hidden_state
-
-    # Obliczanie średniej ukrytych stanów
-    sentence_embedding = torch.mean(hidden_states, dim=1).squeeze()
+    result = classifier(user_input)
 
     # Wyświetlanie wyników
-    st.write("Tokenized input IDs:", inputs['input_ids'])
-    st.write("Sentence embedding:", sentence_embedding)    
+    st.write("Sentiment analysis result:", result)
+
+# Przykład użycia datasets do załadowania zbioru danych
+dataset = load_dataset('imdb', split='test[:10%]')
+st.write("Sample data from IMDB dataset:", dataset[0])    
 
 #st.html(
 #    """
