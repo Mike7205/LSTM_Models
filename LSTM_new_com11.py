@@ -21,14 +21,15 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
+from transformers import BertTokenizer, BertForSequenceClassification, pipeline
 
-# Inicjalizacja modelu FinBERT
-tokenizer = AutoTokenizer.from_pretrained('yiyanghkust/finbert-tone')
-model = AutoModelForSequenceClassification.from_pretrained('yiyanghkust/finbert-tone')
+# Inicjalizacja modelu BERT
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
+model = BertForSequenceClassification.from_pretrained('bert-base-uncased')
+
 classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
 
-st.title("FinBERT Sentiment Analysis in Streamlit")
+st.title("BERT Sentiment Analysis in Streamlit")
 st.write("Enter some text to see the sentiment analysis in action!")
 
 # Pobierz dane wejściowe od użytkownika
@@ -39,7 +40,7 @@ if user_input:
     result = classifier(user_input)
 
     # Wyświetlanie wyników
-    st.write("Sentiment analysis result:", result)  
+    st.write("Sentiment analysis result:", result)
 
 #st.html(
 #    """
