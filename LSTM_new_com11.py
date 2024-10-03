@@ -22,30 +22,17 @@ st.set_page_config(layout="wide")
 # start definicji strony
 st.title('LSTM Prediction Models')
 
-from transformers import AutoTokenizer, AutoModelForCausalLM
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 
-# Inicjalizacja modelu LLaMA
-tokenizer = AutoTokenizer.from_pretrained('facebook/llama-7b')
-model = AutoModelForCausalLM.from_pretrained('facebook/llama-7b')
+# Załaduj tokenizer i model
+tokenizer = T5Tokenizer.from_pretrained('t5-small')
+model = T5ForConditionalGeneration.from_pretrained('t5-small')
 
-st.title("LLaMA Model in Streamlit")
-st.write("Enter some text to see the LLaMA model in action!")
-
-# Pobierz dane wejściowe od użytkownika
-user_input = st.text_input("Enter text here:")
-
-if user_input:
-    # Tokenizacja danych wejściowych
-    inputs = tokenizer(user_input, return_tensors='pt')
-
-    # Generowanie odpowiedzi przez model
-    outputs = model.generate(inputs['input_ids'], max_length=50)
-
-    # Dekodowanie odpowiedzi
-    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
-
-    # Wyświetlanie wyników
-    st.write("Model output:", response)
+# Przykładowe użycie
+input_text = "translate English to French: The house is wonderful."
+input_ids = tokenizer.encode(input_text, return_tensors='pt')
+outputs = model.generate(input_ids)
+print(tokenizer.decode(outputs[0], skip_special_tokens=True))
 
 #st.html(
 #    """
