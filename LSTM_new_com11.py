@@ -41,8 +41,8 @@ if user_input:
     st.write("Sentiment analysis result:", result)
 
 # Przykład użycia datasets do załadowania zbioru danych
-dataset = load_dataset('imdb', split='test[:10%]')
-st.write("Sample data from IMDB dataset:", dataset[0])    
+#dataset = load_dataset('imdb', split='test[:10%]')
+#st.write("Sample data from IMDB dataset:", dataset[0])    
 
 #st.html(
 #    """
