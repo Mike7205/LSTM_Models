@@ -8,5 +8,8 @@ scipy
 scikit-learn
 statsmodels
 transformers
+torch
+torchvision
+torchaudio
 sentencepiece
-pytorch
+wheel
