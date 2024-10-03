@@ -22,6 +22,8 @@ st.set_page_config(layout="wide")
 # start definicji strony
 st.title('LSTM Prediction Models')
 from transformers import AlbertTokenizer, AlbertModel
+import torch
+
 # Inicjalizacja modelu i tokenizera
 tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
 model = AlbertModel.from_pretrained('albert-base-v2')
@@ -39,9 +41,15 @@ if user_input:
     # Przetwarzanie danych przez model
     outputs = model(**inputs)
 
+    # Ekstrakcja ukrytych stanów
+    hidden_states = outputs.last_hidden_state
+
+    # Obliczanie średniej ukrytych stanów
+    sentence_embedding = torch.mean(hidden_states, dim=1).squeeze()
+
     # Wyświetlanie wyników
     st.write("Tokenized input IDs:", inputs['input_ids'])
-    st.write("Model output:", outputs.last_hidden_state)
+    st.write("Sentence embedding:", sentence_embedding)    
 
 #st.html(
 #    """
