@@ -60,8 +60,9 @@ if st.button("T5 answer"):
 
     st.write("Current results:")
     for summary in summaries:
-        st.write(summary)
-
+        #st.write(summary)
+        st.markdown(f"**{summary}**")
+        
 #st.html(
 #    """
 #<style>
