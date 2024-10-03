@@ -61,7 +61,14 @@ if st.button("T5 answer"):
     st.write("Current results:")
     for summary in summaries:
         #st.write(summary)
-        st.form(st.markdown(f"**{summary}**"))
+        st.markdown(
+                f"""
+                <div style="border: 2px solid #4CAF50; padding: 10px; border-radius: 5px; background-color: #f9f9f9;">
+                    {summary}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
         
 #st.html(
 #    """
