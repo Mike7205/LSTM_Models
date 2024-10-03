@@ -30,12 +30,12 @@ from bs4 import BeautifulSoup
 tokenizer = T5Tokenizer.from_pretrained('t5-small')
 model = T5ForConditionalGeneration.from_pretrained('t5-small')
 
-st.title("Prognozy rynkowe z T5")
+st.title("Market forecasts and news with T5 Model")
 
 # Wprowadzenie tematu przez użytkownika
-query = st.text_input("Wprowadź temat (np. Brent Oil Forecast):", "Brent Oil Forecast")
+query = st.text_input("Just ask a question:", "Brent Oil Forecast")
 
-if st.button("Pobierz prognozy"):
+if st.button("T5 answer"):
     # Wyszukiwanie w Google
     search_url = f"https://www.google.com/search?q={query}"
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -46,14 +46,19 @@ if st.button("Pobierz prognozy"):
     results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
     summaries = []
 
-    for result in results[:2]:  # Pobierz pierwsze trzy wyniki
+    for result in results:
         input_text = f"summarize: {result.text}"
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
         outputs = model.generate(input_ids)
         summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        summaries.append(summary)
+        
+        if summary not in summaries:
+            summaries.append(summary)
+        
+        if len(summaries) == 3:
+            break
 
-    st.write("Aktualne prognozy:")
+    st.write("Current results:")
     for summary in summaries:
         st.write(summary)
 
