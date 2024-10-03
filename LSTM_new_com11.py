@@ -23,24 +23,39 @@ st.set_page_config(layout="wide")
 st.title('LSTM Prediction Models')
 
 from transformers import T5Tokenizer, T5ForConditionalGeneration
+import requests
+from bs4 import BeautifulSoup
 
-# Załaduj tokenizer i model
+# Załaduj tokenizer i model T5
 tokenizer = T5Tokenizer.from_pretrained('t5-small')
 model = T5ForConditionalGeneration.from_pretrained('t5-small')
 
-st.title("T5 Model with Streamlit")
+st.title("Prognozy rynkowe z T5")
 
-# Wprowadzenie tekstu przez użytkownika
-input_text = st.text_area("Enter text to translate (English to French):", "The house is wonderful.")
+# Wprowadzenie tematu przez użytkownika
+query = st.text_input("Wprowadź temat (np. Brent Oil Forecast):", "Brent Oil Forecast")
 
-if st.button("Translate"):
-    # Przetwarzanie tekstu
-    input_ids = tokenizer.encode("translate English to French: " + input_text, return_tensors='pt')
-    outputs = model.generate(input_ids)
-    translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
-    
-    st.write("Translated Text:")
-    st.write(translated_text)
+if st.button("Pobierz prognozy"):
+    # Wyszukiwanie w Google
+    search_url = f"https://www.google.com/search?q={query}"
+    headers = {"User-Agent": "Mozilla/5.0"}
+    response = requests.get(search_url, headers=headers)
+    soup = BeautifulSoup(response.text, 'html.parser')
+
+    # Pobierz wyniki wyszukiwania
+    results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
+    summaries = []
+
+    for result in results[:3]:  # Pobierz pierwsze trzy wyniki
+        input_text = f"summarize: {result.text}"
+        input_ids = tokenizer.encode(input_text, return_tensors='pt')
+        outputs = model.generate(input_ids)
+        summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
+        summaries.append(summary)
+
+    st.write("Aktualne prognozy:")
+    for summary in summaries:
+        st.write(summary)
 
 #st.html(
 #    """
