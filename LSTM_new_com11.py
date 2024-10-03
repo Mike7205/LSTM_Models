@@ -21,13 +21,14 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
-from transformers import pipeline
-from datasets import load_dataset
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, pipeline
 
-# Inicjalizacja modelu do klasyfikacji sentymentu
-classifier = pipeline('sentiment-analysis', model='textattack/albert-base-v2-imdb')
+# Inicjalizacja modelu FinBERT
+tokenizer = AutoTokenizer.from_pretrained('yiyanghkust/finbert-tone')
+model = AutoModelForSequenceClassification.from_pretrained('yiyanghkust/finbert-tone')
+classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
 
-st.title("ALBERT Sentiment Analysis in Streamlit")
+st.title("FinBERT Sentiment Analysis in Streamlit")
 st.write("Enter some text to see the sentiment analysis in action!")
 
 # Pobierz dane wejściowe od użytkownika
@@ -38,11 +39,7 @@ if user_input:
     result = classifier(user_input)
 
     # Wyświetlanie wyników
-    st.write("Sentiment analysis result:", result)
-
-# Przykład użycia datasets do załadowania zbioru danych
-#dataset = load_dataset('imdb', split='test[:10%]')
-#st.write("Sample data from IMDB dataset:", dataset[0])    
+    st.write("Sentiment analysis result:", result)  
 
 #st.html(
 #    """
