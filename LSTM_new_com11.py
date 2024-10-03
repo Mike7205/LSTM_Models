@@ -28,11 +28,19 @@ from transformers import T5Tokenizer, T5ForConditionalGeneration
 tokenizer = T5Tokenizer.from_pretrained('t5-small')
 model = T5ForConditionalGeneration.from_pretrained('t5-small')
 
-# Przykładowe użycie
-input_text = "translate English to French: The house is wonderful."
-input_ids = tokenizer.encode(input_text, return_tensors='pt')
-outputs = model.generate(input_ids)
-print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+st.title("T5 Model with Streamlit")
+
+# Wprowadzenie tekstu przez użytkownika
+input_text = st.text_area("Enter text to translate (English to French):", "The house is wonderful.")
+
+if st.button("Translate"):
+    # Przetwarzanie tekstu
+    input_ids = tokenizer.encode("translate English to French: " + input_text, return_tensors='pt')
+    outputs = model.generate(input_ids)
+    translated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    
+    st.write("Translated Text:")
+    st.write(translated_text)
 
 #st.html(
 #    """
