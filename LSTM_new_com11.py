@@ -35,7 +35,7 @@ st.subheader('Market forecasts and news with T5 Model', divider ='blue')
 # Wprowadzenie tematu przez użytkownika
 query = st.text_input("Just ask a question:", "Brent Oil Forecast")
 
-if st.button("T5 answer"):
+if st.button("Top 3 answers by T5:"):
     # Wyszukiwanie w Google
     search_url = f"https://www.google.com/search?q={query}"
     headers = {"User-Agent": "Mozilla/5.0"}
@@ -58,7 +58,6 @@ if st.button("T5 answer"):
         if len(summaries) == 3:
             break
 
-    st.write("Top 3 answers by T5:")
     for summary in summaries:
         st.markdown(
                 f"""
