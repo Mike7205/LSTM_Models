@@ -21,23 +21,31 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
-from transformers import pipeline
 
-# Inicjalizacja modelu do klasyfikacji sentymentu
-classifier = pipeline('sentiment-analysis', model='nlptown/bert-base-multilingual-uncased-sentiment')
+from transformers import AutoTokenizer, AutoModelForCausalLM
 
-st.title("BERT Sentiment Analysis in Streamlit")
-st.write("Enter some text to see the sentiment analysis in action!")
+# Inicjalizacja modelu LLaMA
+tokenizer = AutoTokenizer.from_pretrained('facebook/llama-7b')
+model = AutoModelForCausalLM.from_pretrained('facebook/llama-7b')
+
+st.title("LLaMA Model in Streamlit")
+st.write("Enter some text to see the LLaMA model in action!")
 
 # Pobierz dane wejściowe od użytkownika
 user_input = st.text_input("Enter text here:")
 
 if user_input:
-    # Przetwarzanie danych przez model
-    result = classifier(user_input)
+    # Tokenizacja danych wejściowych
+    inputs = tokenizer(user_input, return_tensors='pt')
+
+    # Generowanie odpowiedzi przez model
+    outputs = model.generate(inputs['input_ids'], max_length=50)
+
+    # Dekodowanie odpowiedzi
+    response = tokenizer.decode(outputs[0], skip_special_tokens=True)
 
     # Wyświetlanie wyników
-    st.write("Sentiment analysis result:", result)
+    st.write("Model output:", response)
 
 #st.html(
 #    """
