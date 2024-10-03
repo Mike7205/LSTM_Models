@@ -13,3 +13,9 @@ torchvision
 torchaudio
 sentencepiece
 wheel
+requests
+matplotlib
+seaborn
+beautifulsoup4
+lxml
+datasets
