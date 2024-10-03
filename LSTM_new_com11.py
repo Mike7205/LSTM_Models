@@ -30,7 +30,7 @@ from bs4 import BeautifulSoup
 tokenizer = T5Tokenizer.from_pretrained('t5-small')
 model = T5ForConditionalGeneration.from_pretrained('t5-small')
 
-st.title("Market forecasts and news with T5 Model")
+st.subheader('Market forecasts and news with T5 Model', divider ='blue')
 
 # Wprowadzenie tematu przez użytkownika
 query = st.text_input("Just ask a question:", "Brent Oil Forecast")
