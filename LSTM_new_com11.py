@@ -21,6 +21,27 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
+from transformers import AlbertTokenizer, AlbertModel
+# Inicjalizacja modelu i tokenizera
+tokenizer = AlbertTokenizer.from_pretrained('albert-base-v2')
+model = AlbertModel.from_pretrained('albert-base-v2')
+
+st.title("ALBERT Model in Streamlit")
+st.write("Enter some text to see the ALBERT model in action!")
+
+# Pobierz dane wejściowe od użytkownika
+user_input = st.text_input("Enter text here:")
+
+if user_input:
+    # Tokenizacja danych wejściowych
+    inputs = tokenizer(user_input, return_tensors='pt')
+
+    # Przetwarzanie danych przez model
+    outputs = model(**inputs)
+
+    # Wyświetlanie wyników
+    st.write("Tokenized input IDs:", inputs['input_ids'])
+    st.write("Model output:", outputs.last_hidden_state)
 
 #st.html(
 #    """
