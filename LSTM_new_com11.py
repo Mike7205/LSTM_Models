@@ -21,13 +21,10 @@ st.set_page_config(layout="wide")
 
 # start definicji strony
 st.title('LSTM Prediction Models')
-from transformers import BertTokenizer, BertForSequenceClassification, pipeline
+from transformers import pipeline
 
-# Inicjalizacja modelu BERT
-tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
-model = BertForSequenceClassification.from_pretrained('bert-base-uncased')
-
-classifier = pipeline('sentiment-analysis', model=model, tokenizer=tokenizer)
+# Inicjalizacja modelu do klasyfikacji sentymentu
+classifier = pipeline('sentiment-analysis', model='nlptown/bert-base-multilingual-uncased-sentiment')
 
 st.title("BERT Sentiment Analysis in Streamlit")
 st.write("Enter some text to see the sentiment analysis in action!")
