@@ -123,6 +123,7 @@ def Arima_chart():
     
 col1, col2 = st.columns([0.5, 0.5])
 with col1:   
+    st.write('\n')
     # Own LSTM EUR/PLN D+5 prediction model
     st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider ='blue')  
     val_D5E = pd.read_pickle('D5_eur_tabel.pkl')
@@ -164,6 +165,7 @@ with col1:
     st.plotly_chart(fig_vals, use_container_width=True)
 
 with col2:
+    st.write('\n')
     st.subheader('Arima benchmark' , divider ='blue')
     col3, col4 = st.columns([0.5, 0.5])
     with col3:
