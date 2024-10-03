@@ -20,7 +20,7 @@ from statsmodels.tsa.arima.model import ARIMA
 st.set_page_config(layout="wide")
 
 # start definicji strony
-st.title('LSTM Prediction Models')
+st.title('LSTM Prediction Models + AI tips and hints')
 
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import requests
