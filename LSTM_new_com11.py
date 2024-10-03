@@ -49,9 +49,10 @@ if st.button("Top 3 answers by T5:"):
     for result in results:
         input_text = f"summarize: {result.text}"
         input_ids = tokenizer.encode(input_text, return_tensors='pt')
-        outputs = model.generate(input_ids)
+        #outputs = model.generate(input_ids)
+        outputs = model.generate(input_ids, max_length=150, num_beams=4, early_stopping=True)
         summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
-        
+                
         if summary not in summaries:
             summaries.append(summary)
         
