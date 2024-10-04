@@ -70,7 +70,7 @@ with col1:
                     unsafe_allow_html=True
                 )
 with col2:
-    st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text) was developed by Google Research.", width=300)
+    st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text) was developed by Google Research.", width=250)
    
 #st.html(
 #    """
