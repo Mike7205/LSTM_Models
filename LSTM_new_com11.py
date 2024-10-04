@@ -22,7 +22,7 @@ st.set_page_config(layout="wide")
 st.title('LSTM Prediction Models + AI tips and hints')
 
 col1, col2 = st.columns([0.8, 0.2])
-with col1: 
+with col2: 
     from transformers import T5Tokenizer, T5ForConditionalGeneration
     import requests
     from bs4 import BeautifulSoup
@@ -75,7 +75,7 @@ with col1:
                 unsafe_allow_html=True
             )
 
-with col2:
+with col1:
     st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text) developed by Google Research.", width=250)
    
 #st.html(
