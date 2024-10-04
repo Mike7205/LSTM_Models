@@ -196,6 +196,8 @@ with col4:
         curr_f(st.session_state.bench)
         Arima_f(st.session_state.size_a)
         st.session_state.arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
+        face_model(st.session_state.size_a)
+        st.session_state.face_fore = pd.read_pickle('face_fore.pkl')
         
     # Wyświetl wyniki, jeśli są dostępne
     if st.session_state.arima_chart_dff is not None:
@@ -207,9 +209,7 @@ with col4:
 
     st.write('\n')
     st.subheader('Facebook Prophet benchmark' , divider ='blue')
-    face_model(st.session_state.size_a)
-    st.session_state.face_fore = pd.read_pickle('face_fore.pkl')
-
+    
     today = date.today()
     prophet_dict = {'ds':'Date', 'yhat':'Close Forecast', 'yhat_lower':'Exp_Close_min', 'yhat_upper':'Exp_Close_max'}
     if st.session_state.face_fore is not None:
