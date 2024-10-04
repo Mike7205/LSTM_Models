@@ -21,7 +21,7 @@ st.set_page_config(layout="wide")
 
 st.title('LSTM Prediction Models + AI tips and hints')
 
-col1, col2 = st.columns([0.8, 0.2])
+col1, col2 = st.columns([0.3, 0.7])
 with col2: 
     from transformers import T5Tokenizer, T5ForConditionalGeneration
     import requests
