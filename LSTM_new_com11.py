@@ -24,6 +24,7 @@ with col1:
     st.write('\n')
     st.write('\n')
     st.write('\n')
+    st.write('\n')
     st.title('LSTM Prediction Models + AI tips and hints')
 with col2:
     st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text Transfer Transformer) was developed by the research team at Google Research.", width=200)
