@@ -18,59 +18,60 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.arima.model import ARIMA
 
 st.set_page_config(layout="wide")
+
+st.title('LSTM Prediction Models + AI tips and hints')
+
 col1, col2 = st.columns([0.5, 0.5])
 with col1: 
-    st.title('LSTM Prediction Models + AI tips and hints')
+    from transformers import T5Tokenizer, T5ForConditionalGeneration
+    import requests
+    from bs4 import BeautifulSoup
+    
+    # Załaduj tokenizer i model T5
+    tokenizer = T5Tokenizer.from_pretrained('t5-small')
+    model = T5ForConditionalGeneration.from_pretrained('t5-small')
+    
+    st.subheader('Market forecasts and news with T5 Model', divider ='blue')
+    
+    # Wprowadzenie tematu przez użytkownika
+    query = st.text_input("Just ask a question:", "Brent Oil Forecast")
+    
+    if st.button("Top 3 answers by T5:"):
+        # Wyszukiwanie w Google
+        search_url = f"https://www.google.com/search?q={query}"
+        headers = {"User-Agent": "Mozilla/5.0"}
+        response = requests.get(search_url, headers=headers)
+        soup = BeautifulSoup(response.text, 'html.parser')
+    
+        # Pobierz wyniki wyszukiwania
+        results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
+        summaries = []
+    
+        for result in results:
+            input_text = f"summarize: {result.text}"
+            input_ids = tokenizer.encode(input_text, return_tensors='pt')
+            #outputs = model.generate(input_ids)
+            outputs = model.generate(input_ids, max_length=150, num_beams=4, early_stopping=True)
+            summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
+                    
+            if summary not in summaries:
+                summaries.append(summary)
+            
+            if len(summaries) == 3:
+                break
+    
+        for summary in summaries:
+            st.markdown(
+                    f"""
+                    <div style="background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px;">
+                        {summary}
+                    </div>
+                    """,
+                    unsafe_allow_html=True
+                )
 with col2:
     st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text) was developed by Google Research.", width=200)
-
-from transformers import T5Tokenizer, T5ForConditionalGeneration
-import requests
-from bs4 import BeautifulSoup
-
-# Załaduj tokenizer i model T5
-tokenizer = T5Tokenizer.from_pretrained('t5-small')
-model = T5ForConditionalGeneration.from_pretrained('t5-small')
-
-st.subheader('Market forecasts and news with T5 Model', divider ='blue')
-
-# Wprowadzenie tematu przez użytkownika
-query = st.text_input("Just ask a question:", "Brent Oil Forecast")
-
-if st.button("Top 3 answers by T5:"):
-    # Wyszukiwanie w Google
-    search_url = f"https://www.google.com/search?q={query}"
-    headers = {"User-Agent": "Mozilla/5.0"}
-    response = requests.get(search_url, headers=headers)
-    soup = BeautifulSoup(response.text, 'html.parser')
-
-    # Pobierz wyniki wyszukiwania
-    results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
-    summaries = []
-
-    for result in results:
-        input_text = f"summarize: {result.text}"
-        input_ids = tokenizer.encode(input_text, return_tensors='pt')
-        #outputs = model.generate(input_ids)
-        outputs = model.generate(input_ids, max_length=150, num_beams=4, early_stopping=True)
-        summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
-                
-        if summary not in summaries:
-            summaries.append(summary)
-        
-        if len(summaries) == 3:
-            break
-
-    for summary in summaries:
-        st.markdown(
-                f"""
-                <div style="background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px;">
-                    {summary}
-                </div>
-                """,
-                unsafe_allow_html=True
-            )
-        
+   
 #st.html(
 #    """
 #<style>
