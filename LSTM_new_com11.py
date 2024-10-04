@@ -27,11 +27,15 @@ with col1:
     import requests
     from bs4 import BeautifulSoup
     
-    # Załaduj tokenizer i model T5
-    tokenizer = T5Tokenizer.from_pretrained('t5-small')
-    model = T5ForConditionalGeneration.from_pretrained('t5-small')
+    # Inicjalizacja stanu sesji
+    if 'tokenizer' not in st.session_state:
+        st.session_state.tokenizer = T5Tokenizer.from_pretrained('t5-small')
+    if 'model' not in st.session_state:
+        st.session_state.model = T5ForConditionalGeneration.from_pretrained('t5-small')
+    if 'summaries' not in st.session_state:
+        st.session_state.summaries = []
     
-    st.subheader('Market forecasts and news with T5 Model', divider ='blue')
+    st.subheader('Market forecasts and news with T5 Model', divider='blue')
     
     # Wprowadzenie tematu przez użytkownika
     query = st.text_input("Just ask a question:", "Brent Oil Forecast")
@@ -45,30 +49,30 @@ with col1:
     
         # Pobierz wyniki wyszukiwania
         results = soup.find_all('div', class_='BNeawe s3v9rd AP7Wnd')
-        summaries = []
+        st.session_state.summaries = []
     
         for result in results:
             input_text = f"summarize: {result.text}"
-            input_ids = tokenizer.encode(input_text, return_tensors='pt')
-            #outputs = model.generate(input_ids)
-            outputs = model.generate(input_ids, max_length=150, num_beams=4, early_stopping=True)
-            summary = tokenizer.decode(outputs[0], skip_special_tokens=True)
-                    
-            if summary not in summaries:
-                summaries.append(summary)
-            
-            if len(summaries) == 3:
+            input_ids = st.session_state.tokenizer.encode(input_text, return_tensors='pt')
+            outputs = st.session_state.model.generate(input_ids, max_length=150, num_beams=4, early_stopping=True)
+            summary = st.session_state.tokenizer.decode(outputs[0], skip_special_tokens=True)
+    
+            if summary not in st.session_state.summaries:
+                st.session_state.summaries.append(summary)
+    
+            if len(st.session_state.summaries) == 3:
                 break
     
-        for summary in summaries:
+        for summary in st.session_state.summaries:
             st.markdown(
-                    f"""
-                    <div style="background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px;">
-                        {summary}
-                    </div>
-                    """,
-                    unsafe_allow_html=True
-                )
+                f"""
+                <div style="background-color: #1f77b4; color: white; padding: 10px; border-radius: 5px;">
+                    {summary}
+                </div>
+                """,
+                unsafe_allow_html=True
+            )
+
 with col2:
     st.image("T5_v1.jpeg", caption="The T5 model (Text-To-Text) developed by Google Research.", width=250)
    
