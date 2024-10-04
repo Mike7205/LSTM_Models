@@ -19,3 +19,4 @@ seaborn
 beautifulsoup4
 lxml
 datasets
+prophet
