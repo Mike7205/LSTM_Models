@@ -123,10 +123,11 @@ def Arima_f(size_a):
     
 def face_model(size_a):    
     from prophet import Prophet
-    df = df_c1[['Date', 'Close']][-300:]
-    df.columns = ['ds', 'y']  # Prophet wymaga kolumn 'ds' (data) i 'y' (wartość)
+    df_ff = df_c1[['Date', 'Close']][-300:]
+    df_ff.columns = ['ds', 'y']  # Prophet wymaga kolumn 'ds' (data) i 'y' (wartość)
+    df_ff.to_pickle('df_ff.pkl')
     model = Prophet()
-    model.fit(df)
+    model.fit(df_ff)
     future = model.make_future_dataframe(periods=size_a)
     forecast = model.predict(future)
     face_fore = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
@@ -198,6 +199,7 @@ with col4:
         st.session_state.arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
         face_model(st.session_state.size_a)
         st.session_state.face_fore = pd.read_pickle('face_fore.pkl')
+        st.session_state.df_ff = pd.read_pickle('df_ff.pkl')
         
     # Wyświetl wyniki, jeśli są dostępne
     if st.session_state.arima_chart_dff is not None:
@@ -218,7 +220,7 @@ with col4:
                       labels={'value': 'Close Price', 'variable': 'Legend'},
                       title='Forecast vs Actuals')
         
-        fig_ff.add_scatter(x=df['ds'], y=df['y'], mode='lines', name='Actual')
+        fig_ff.add_scatter(x=st.session_state.df_ff['ds'], y=st.session_state.df_ff['y'], mode='lines', name='Actual')
         fig_ff.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
         fig_ff.update_layout(xaxis_title='Date', yaxis_title='Close Price')
         st.plotly_chart(fig_ff, use_container_width=True)
