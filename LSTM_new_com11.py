@@ -181,9 +181,9 @@ with col4:
         st.session_state.bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
     with col6:
         st.session_state.size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-        submit = st.button(f"Submit {st.session_state.bench} Benchmark forecast")
-               
-# Inicjalizacja stanu sesji
+        
+    submit = st.button(f"Submit {st.session_state.bench} Benchmark forecast")           
+    # Inicjalizacja stanu sesji
     if 'bench' not in st.session_state:
         st.session_state.bench = None
     if 'size_a' not in st.session_state:
