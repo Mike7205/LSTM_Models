@@ -178,40 +178,28 @@ with col4:
     st.subheader('Arima benchmark' , divider ='blue')
     col5, col6 = st.columns([0.5, 0.5])
     with col5:
-        bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
-        
+        st.session_state.bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
     with col6:
-        size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-        submit = st.button(f"Submit {bench} Benchmark forecast")        
-        # Inicjalizacja stanu sesji
-        if 'bench' not in st.session_state:
-            st.session_state.bench = None
-        if 'size_a' not in st.session_state:
-            st.session_state.size_a = 1
-        if 'arima_chart_dff' not in st.session_state:
-            st.session_state.arima_chart_dff = None
-        
-        st.write('\n')
-        st.subheader('Arima benchmark', divider='blue')
-        
-        col5, col6 = st.columns([0.5, 0.5])
-        with col5:
-            st.session_state.bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
-        
-        with col6:
-            st.session_state.size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
-        
+        st.session_state.size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
         submit = st.button(f"Submit {st.session_state.bench} Benchmark forecast")
-        if submit:
-            curr_f(st.session_state.bench)
-            Arima_f(st.session_state.bench, st.session_state.size_a)
-            st.session_state.arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
+               
+# Inicjalizacja stanu sesji
+    if 'bench' not in st.session_state:
+        st.session_state.bench = None
+    if 'size_a' not in st.session_state:
+        st.session_state.size_a = 1
+    if 'arima_chart_dff' not in st.session_state:
+        st.session_state.arima_chart_dff = None
+    if submit:
+        curr_f(st.session_state.bench)
+        Arima_f(st.session_state.bench, st.session_state.size_a)
+        st.session_state.arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
         
-        # Wyświetl wyniki, jeśli są dostępne
-        if st.session_state.arima_chart_dff is not None:
-            fig_ar = px.line(st.session_state.arima_chart_dff, x='Date', y=['High', 'Close', 'Predicted Close'], color_discrete_map={
+    # Wyświetl wyniki, jeśli są dostępne
+    if st.session_state.arima_chart_dff is not None:
+        fig_ar = px.line(st.session_state.arima_chart_dff, x='Date', y=['High', 'Close', 'Predicted Close'], color_discrete_map={
                                   'High': 'orange', 'Close': 'black', 'Predicted Close': 'red'}, width=1000, height=500)
-            fig_ar.add_vline(x=today, line_width=3, line_dash="dash", line_color="green")
-            fig_ar.update_layout(xaxis=None, yaxis=None)
-            st.plotly_chart(fig_ar, use_container_width=True)
+        fig_ar.add_vline(x=today, line_width=3, line_dash="dash", line_color="green")
+        fig_ar.update_layout(xaxis=None, yaxis=None)
+        st.plotly_chart(fig_ar, use_container_width=True)
         
