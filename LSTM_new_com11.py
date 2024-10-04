@@ -99,7 +99,7 @@ def curr_f(bench):
            
     return df_c1   
 
-def Arima_f(bench, size_a):
+def Arima_f(size_a):
     data = np.asarray(df_c1['Close'][-300:]).reshape(-1, 1)
     p = 10
     d = 0
@@ -121,14 +121,16 @@ def Arima_f(bench, size_a):
     arima_chart_dff = arima_chart_df.iloc[x_ar - 30:x_ar]
     arima_chart_dff.to_pickle('arima_chart_dff.pkl') 
     
-def Arima_chart():    
-    arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
-    fig_ar = px.line(arima_chart_dff, x='Date', y=['High', 'Close', 'Predicted Close'], color_discrete_map={
-                      'High': 'yellow', 'Close': 'black', 'Predicted Close': 'red'}, width=1000, height=500)
-    fig_ar.add_vline(x = today,line_width=3, line_dash="dash", line_color="green")
-    fig_ar.update_layout(xaxis=None, yaxis=None)
-    st.plotly_chart(fig_ar, use_container_width=True)
-
+def face_model(size_a):    
+    from prophet import Prophet
+    df = df_c1[['Date', 'Close']][-300:]
+    df.columns = ['ds', 'y']  # Prophet wymaga kolumn 'ds' (data) i 'y' (wartość)
+    model = Prophet()
+    model.fit(df)
+    future = model.make_future_dataframe(periods=size_a)
+    forecast = model.predict(future)
+    face_fore = forecast[['ds', 'yhat', 'yhat_lower', 'yhat_upper']]
+    face_fore.to_pickle('face_fore.pkl')
     
 col3, col4 = st.columns([0.5, 0.5])
 with col3:   
@@ -192,7 +194,7 @@ with col4:
         st.session_state.arima_chart_dff = None
     if submit:
         curr_f(st.session_state.bench)
-        Arima_f(st.session_state.bench, st.session_state.size_a)
+        Arima_f(st.session_state.size_a)
         st.session_state.arima_chart_dff = pd.read_pickle('arima_chart_dff.pkl')
         
     # Wyświetl wyniki, jeśli są dostępne
@@ -202,4 +204,22 @@ with col4:
         fig_ar.add_vline(x=today, line_width=3, line_dash="dash", line_color="green")
         fig_ar.update_layout(xaxis=None, yaxis=None)
         st.plotly_chart(fig_ar, use_container_width=True)
+
+    st.write('\n')
+    st.subheader('Facebook Prophet benchmark' , divider ='blue')
+    face_model(st.session_state.size_a)
+    st.session_state.face_fore = pd.read_pickle('face_fore.pkl')
+
+    today = date.today()
+    prophet_dict = {'ds':'Date', 'yhat':'Close Forecast', 'yhat_lower':'Exp_Close_min', 'yhat_upper':'Exp_Close_max'}
+    if st.session_state.face_fore is not None:
+        st.session_state.face_fore.rename(columns=prophet_dict, inplace=True)
+        fig_ff = px.line(st.session_state.face_fore, x='Date', y=['Close Forecast', 'Exp_Close_min', 'Exp_Close_max'],color_discrete_map={'Close Forecast':'red', 'Exp_Close_min':'grey', 'Exp_Close_max':'green'}, 
+                      labels={'value': 'Close Price', 'variable': 'Legend'},
+                      title='Forecast vs Actuals')
         
+        fig_ff.add_scatter(x=df['ds'], y=df['y'], mode='lines', name='Actual')
+        fig_ff.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
+        fig_ff.update_layout(xaxis_title='Date', yaxis_title='Close Price')
+        st.plotly_chart(fig_ff, use_container_width=True)
+    
