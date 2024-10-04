@@ -18,9 +18,12 @@ from statsmodels.tsa.holtwinters import ExponentialSmoothing
 from statsmodels.tsa.arima.model import ARIMA
 
 st.set_page_config(layout="wide")
-
-# start definicji strony
-st.title('LSTM Prediction Models + AI tips and hints')
+col1, col2 = st.columns([0.5, 0.5])
+    with col1: 
+        # start definicji strony
+        st.title('LSTM Prediction Models + AI tips and hints')
+    with col2:
+        st.image("sunrise.jpg", caption="Sunrise by the mountains")
 
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import requests
@@ -121,8 +124,8 @@ def Arima_chart():
     st.plotly_chart(fig_ar, use_container_width=True)
 
     
-col1, col2 = st.columns([0.5, 0.5])
-with col1:   
+col3, col4 = st.columns([0.5, 0.5])
+with col3:   
     st.write('\n')
     # Own LSTM EUR/PLN D+5 prediction model
     st.subheader('Own LSTM EUR/PLN D+5 prediction model', divider ='blue')  
@@ -164,14 +167,14 @@ with col1:
                           yaxis=dict(showgrid=True, gridwidth=0.5, gridcolor='Lightgrey'))   
     st.plotly_chart(fig_vals, use_container_width=True)
 
-with col2:
+with col4:
     st.write('\n')
     st.subheader('Arima benchmark' , divider ='blue')
-    col3, col4 = st.columns([0.5, 0.5])
-    with col3:
+    col5, col6 = st.columns([0.5, 0.5])
+    with col5:
         bench = st.radio('Benchmark for:', list(bench_dict.values()), horizontal=True, key="<co2>")
         
-    with col4:
+    with col6:
         size_a = st.slider('Forecast length', 1, 10, 1, key="<co1>")
         
     
