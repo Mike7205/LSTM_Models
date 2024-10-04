@@ -63,6 +63,8 @@ with col1:
             if len(st.session_state.summaries) == 3:
                 break
     
+    # Wyświetl wyniki, jeśli są dostępne
+    if st.session_state.summaries:
         for summary in st.session_state.summaries:
             st.markdown(
                 f"""
