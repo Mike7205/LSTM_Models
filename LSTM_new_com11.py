@@ -193,6 +193,13 @@ with col4:
         st.session_state.size_a = 1
     if 'arima_chart_dff' not in st.session_state:
         st.session_state.arima_chart_dff = None
+    if 'face_model' not in st.session_state:
+        st.session_state.face_model = None 
+    if 'face_fore' not in st.session_state:
+        st.session_state.face_fore = None
+    if 'df_ff' not in st.session_state:
+        st.session_state.df_ff = None    
+    
     if submit:
         curr_f(st.session_state.bench)
         Arima_f(st.session_state.size_a)
