@@ -19,11 +19,10 @@ from statsmodels.tsa.arima.model import ARIMA
 
 st.set_page_config(layout="wide")
 col1, col2 = st.columns([0.5, 0.5])
-    with col1: 
-        # start definicji strony
-        st.title('LSTM Prediction Models + AI tips and hints')
-    with col2:
-        st.image("T5_v1.jpg", caption="The T5 model (Text-To-Text Transfer Transformer) was developed by the research team at Google Research. It is one of the advanced language models designed to handle various language tasks by transforming them into text-based tasks")
+with col1: 
+    st.title('LSTM Prediction Models + AI tips and hints')
+with col2:
+    st.image("T5_v1.jpg", caption="The T5 model (Text-To-Text Transfer Transformer) was developed by the research team at Google Research. It is one of the advanced language models designed to handle various language tasks by transforming them into text-based tasks")
 
 from transformers import T5Tokenizer, T5ForConditionalGeneration
 import requests
