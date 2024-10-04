@@ -227,7 +227,7 @@ with col4:
                       labels={'value': 'Close Price', 'variable': 'Legend'},
                       title='Forecast vs Actuals')
         
-        fig_ff.add_scatter(x=st.session_state.df_ff['ds'], y=st.session_state.df_ff['y'], mode='lines', name='Actual', line=dict(color='black'))
+        fig_ff.add_scatter(x=st.session_state.df_ff['ds'], y=st.session_state.df_ff['y'], mode='lines', name='Actual', line_color="black" )
         fig_ff.add_vline(x = today,line_width=1, line_dash="dash", line_color="black")
         fig_ff.update_layout(xaxis_title='Date', yaxis_title='Close Price')
         st.plotly_chart(fig_ff, use_container_width=True)
